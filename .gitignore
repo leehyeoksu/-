@@ -1,0 +1,59 @@
+# 가상환경
+venv/
+.venv/
+env/
+
+# 패키지 목록 (로컬 환경 의존적이라 제외)
+requirements.txt
+
+# Python 캐시
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Jupyter Notebook 체크포인트
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# 딥러닝 모델/데이터 (용량 큼)
+*.pth
+*.pt
+*.h5
+*.hdf5
+*.ckpt
+*.pb
+checkpoints/
+saved_models/
+runs/
+logs/
+wandb/
+
+# 데이터셋
+data/
+datasets/
+*.csv
+*.json
+*.npy
+*.npz
+*.pkl
+*.pickle
+
+# 환경 설정
+.env
+*.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# 빌드/배포
+dist/
+build/
+*.egg-info/
