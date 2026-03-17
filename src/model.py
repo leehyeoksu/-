@@ -5,7 +5,7 @@ class dinosplus_classfier(nn.Module):
         super().__init__()
         self.backbone=model
         clsdim= self.backbone.config.hidden_size
-        self.fc=nn.Sequential(nn.Linear(clsdim,1024),nn.ReLU(),nn.Linear(1024,512),nn.ReLU(),nn.Linear(512,num))
+        self.fc=nn.Sequential(nn.Linear(clsdim,512),nn.ReLU(),nn.Linear(512,num))
     def forward(self,x):
         output=self.backbone(pixel_values=x)
         
