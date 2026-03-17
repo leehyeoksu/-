@@ -1,23 +1,34 @@
-# 가상환경
+# =========================
+# Virtual Environment
+# =========================
 venv/
 .venv/
 env/
 
-# 패키지 목록 (로컬 환경 의존적이라 제외)
-requirements.txt
-
-# Python 캐시
+# =========================
+# Python Cache
+# =========================
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
 .Python
 
-# Jupyter Notebook 체크포인트
+# =========================
+# Jupyter
+# =========================
 .ipynb_checkpoints/
 *.ipynb_checkpoints
 
-# 딥러닝 모델/데이터 (용량 큼)
+# =========================
+# MLflow
+# =========================
+mlruns/
+mlruns.db
+
+# =========================
+# Models / Checkpoints
+# =========================
 *.pth
 *.pt
 *.h5
@@ -30,30 +41,37 @@ runs/
 logs/
 wandb/
 
-# 데이터셋
+# =========================
+# Dataset (large only)
+# =========================
 data/
 datasets/
-*.csv
-*.json
-*.npy
-*.npz
-*.pkl
-*.pickle
 
-# 환경 설정
+# (⚠️ 중요: csv/json 전체 ignore 제거)
+# 대신 필요한 것만 선택적으로 관리
+
+# =========================
+# Environment Variables
+# =========================
 .env
 *.env
 
+# =========================
 # IDE
+# =========================
 .vscode/
 .idea/
 *.swp
 *.swo
 
+# =========================
 # macOS
+# =========================
 .DS_Store
 
-# 빌드/배포
+# =========================
+# Build / Packaging
+# =========================
 dist/
 build/
 *.egg-info/
