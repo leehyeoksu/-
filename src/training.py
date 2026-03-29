@@ -3,8 +3,10 @@ from tqdm.auto import tqdm
 import mlflow
 import mlflow.pytorch
 from .evaluating import evaluate
+from .re_make_Gate import compute_gate_loss
 import os
 import gc
+
 def train(
     model,
     dataloader,
@@ -36,6 +38,8 @@ def train(
         mlflow.log_param("lr", optimizer.param_groups[0]['lr'])
         mlflow.log_param("patience", patience)
         mlflow.log_param("min_delta", min_delta)
+        mlflow.log_param("gate_lambda", 0.1)
+        
 
         for i in tqdm(range(epochs)):
             model.train()
@@ -55,10 +59,15 @@ def train(
                 with torch.autocast('cuda', dtype=torch.float16): # loss.backward() opimizer.step()
                     out = model(x)
                     loss = criterion(out, y)
-
+                    gate_loss = compute_gate_loss(model.backbone)  
+                    loss = loss + 0.1 * gate_loss  
+                    
+                
+            
                 scaler.scale(loss).backward()
                 scaler.step(optimizer)
                 scaler.update()
+                
 
                 bn = x.size(0)
                 total += bn
@@ -83,6 +92,7 @@ def train(
             mlflow.log_metric("train_accuracy", train_acc, step=i)
             mlflow.log_metric("test_loss", test_loss, step=i)
             mlflow.log_metric("test_accuracy", test_acc, step=i)
+            mlflow.log_metric("gate_loss", gate_loss.item(), step=i)
 
             # 오타 수정 완료: train_loss -> test_acc
             print(
@@ -112,7 +122,7 @@ def train(
         if os.path.exists(path):
             model.load_state_dict(torch.load(path))
             mlflow.log_artifact(path)
-            mlflow.pytorch.log_model(model, artifact_path="best_model")
+            mlflow.pytorch.log_model(model, name="best_model")
             print("최고 성능 모델이 MLflow에 저장되었습니다.")
         else:
             print("저장된 모델 가중치가 없습니다. (성능 개선 없음)")
